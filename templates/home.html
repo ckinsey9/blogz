@@ -8,7 +8,7 @@
 
         
             {% for adventure in adventures %}
-            <h3>{{adventure.title}} | {{adventure.time}}</h3>
+            <h3><a href="/blog?id={{adventure.id}}">{{adventure.title}}</a> | {{adventure.time}}</h3>
             
             <p>{{adventure.body}}</p>
             <hr />

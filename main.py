@@ -23,8 +23,16 @@ class Blog(db.Model):
 
 @app.route('/blog', methods=['POST', 'GET'])
 def index():
+    blog_id = request.args.get("id")
+    #this allows the user to click on the single blog post link and go to
+    #it's individual page with the base boilerplate
+    if blog_id:
+        blogger = int(blog_id)
+        single_blog = Blog.query.filter_by(id=blogger).first()
+        single_blog_page = "<h3>" + single_blog.title + " | " + str(single_blog.time) + "</h3><p>" + single_blog.body + "</p><hr />"
+        return render_template("base.html") + single_blog_page
     adventures = Blog.query.all()
-    return render_template('home.html', adventures=adventures)
+    return render_template('home.html', adventures=adventures, id=Blog.id)
 
 @app.route('/newpost', methods=["POST", "GET"])
 def new_post():
@@ -37,7 +45,8 @@ def new_post():
             new_post = Blog(title, blog_post)
             db.session.add(new_post)
             db.session.commit()
-            return redirect("/blog")
+            new_post_id = new_post.id
+            return redirect("/blog?id={0}".format(new_post_id))
         else:
             #flash error if user does not fill out both form fields
             flash("Please fill out both the Title and Post before submitting", "error")
@@ -48,7 +57,8 @@ def new_post():
 if __name__ == '__main__':
     app.run()
 
-"""(for home.html page) 
-<form method="POST" action="/blog?{{0}}" style="display:inline-block;">.format(adventure.id)
-                    <input type="hidden" name="adventure-id" value="{{adventure.id}}" />
-                    <input type="submit" value="Go To!" />"""
+"""                 
+db.drop_all()
+db.create_all()
+"""
+
