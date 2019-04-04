@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    {% if adventures|length == 0 %}
+    <p>No Adventures Yet (Get out there!)</p>
+    {% else %}
+
+        
+            {% for adventure in adventures %}
+            <h3>{{adventure.title}} | {{adventure.time}}</h3>
+            
+            <p>{{adventure.body}}</p>
+            <hr />
+            {% endfor %}
+        
+
+       
+
+
+    {% endif %}
+
+
+
+{% endblock %}
+

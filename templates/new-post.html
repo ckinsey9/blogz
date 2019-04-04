@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="/newpost" id="blogs" method='POST'>
+    <label for="title" >Blog Post Title:</label>
+    <br>
+    <input type="text" name='title' id="title" value="{{title}}"/>
+    <br>
+    
+    <br>
+    <label for="blog_post">Blog Post:</label>
+    <br>
+    <textarea name="blog_post" id="blog_post" form="blogs" 
+        placeholder="Type your post here..." value="{{blog_post}}"></textarea>
+    <hr />
+    <input type="submit" value='Add Adventure' />
+</form>
+
+
+{% endblock %}

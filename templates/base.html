@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Adventures of Bowie and Ziggy</title>
+        <style>
+            .error{
+                color: red;
+                font-weight: 700;
+            }
+            
+        </style>
+    </head>
+    <nav>
+        <a href="/blog">The Adventures</a>
+        <a href="/newpost">New Adventure</a>
+    </nav>
+<body>
+    <h1>Adventures of Bowie and Ziggy!</h1>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    <ul>
+    {% for category, message in messages %}
+        <li class="{{category}}">{{message}}</li>
+    {% endfor %}
+    </ul>
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>
