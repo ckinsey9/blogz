@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
+import cgi
 import datetime
 
 app = Flask(__name__)
@@ -29,10 +30,12 @@ def index():
     if blog_id:
         blogger = int(blog_id)
         single_blog = Blog.query.filter_by(id=blogger).first()
-        single_blog_page = "<h3>" + single_blog.title + " | " + str(single_blog.time) + "</h3><p>" + single_blog.body + "</p><hr />"
-        return render_template("base.html") + single_blog_page
+        return render_template("current-post.html", 
+            title=single_blog.title, 
+            time=single_blog.time,
+            body=single_blog.body)
     adventures = Blog.query.all()
-    return render_template('home.html', adventures=adventures, id=Blog.id)
+    return render_template('home.html', adventures=adventures) #this was in return...think it is not necessary, id=Blog.id
 
 @app.route('/newpost', methods=["POST", "GET"])
 def new_post():
@@ -60,5 +63,8 @@ if __name__ == '__main__':
 """                 
 db.drop_all()
 db.create_all()
+
+
+todo = escape check, timezone check, CSS, most recent first
 """
 

@@ -2,20 +2,29 @@
 
 {% block content %}
 
+<div class="total">
+<div class="form">
 <form action="/newpost" id="blogs" method='POST'>
     <label for="title" >Blog Post Title:</label>
     <br>
-    <input type="text" name='title' id="title" value="{{title}}"/>
+    <input type="text" name='title' id="title" value="{{title}}"
+    placeholder=" Is your title as cool as the chick on the right?"/>
     <br>
     
     <br>
     <label for="blog_post">Blog Post:</label>
     <br>
     <textarea name="blog_post" id="blog_post" form="blogs" 
-        placeholder="Type your post here..." value="{{blog_post}}"></textarea>
-    <hr />
-    <input type="submit" value='Add Adventure' />
+        placeholder=" Type your post here..." value="{{blog_post}}"></textarea>
+    <br>
+    <input class="button" type="submit" value='Add Adventure' />
 </form>
+</div>
+<div class="sierra">
+    <img src="/static/images/sierra.jpg" alt="This should be a picture of Bowie's face!">
 
+</div>
+</div>
+<hr />
 
 {% endblock %}

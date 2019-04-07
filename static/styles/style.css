@@ -1,0 +1,123 @@
+/*Style Sheet for Adventures of Bowie and Ziggy Blog
+
+font-family: 'Permanent Marker', cursive;
+font-family: 'Raleway', sans-serif;
+*/
+
+
+/*Pop up error styling */
+.error{
+    color: red;
+    font-weight: 700;
+}
+
+/*header and navigation bar styling */
+header {
+    width: 100%;
+    height: 300px;
+    background-image: url("../images/HST.jpg");
+    background-position: center;
+    background-size: cover;
+    font-family: 'Permanent Marker', cursive;
+}
+
+h1 {
+    margin: 0px;
+    padding-top: 50px;
+    padding-left: 10px;
+    color: snow;
+}
+
+body {
+    color: black;
+    background-color: white;
+    border: 1/2em solid white;
+    font-family: 'Raleway', sans-serif;
+}
+
+nav {
+    
+    background-color: black;
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+}
+
+nav a {
+    font-size: 1.25em;
+    border-left: 5px solid purple;
+    text-decoration: none;
+    color: white;
+    float: right;
+    padding: 15px;
+    text-align: center;
+}
+
+nav a:hover {
+    background-color: steelblue;
+}
+
+/* Body Styling */
+a {
+    color: black;
+}
+
+.time h3, .time p {
+    display: inline;
+    font-weight: 700;
+}
+
+/* New post form styling page */
+.total {
+    column-count: 2;
+    padding-top: 50px;
+    padding-bottom:20px;
+}
+
+.sierra img {
+    border: 5px solid black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    height: 400px;
+    border-radius: 15px;
+}
+
+.form {
+    height: 400px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+input {
+    width: 60%;
+    height: 2em;
+    border: 3px solid black;
+    border-radius: 15px;
+
+}
+
+textarea {
+    height: 200px;
+    width: 60%;
+    border: 3px solid black;
+    border-radius: 15px;
+}
+
+.button {
+    width: 25%;
+    background-color: purple;
+    color: snow;
+    font-weight: 700;
+    border-radius: 15px;
+    border: none;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    font-family: 'Permanent Marker', cursive;
+
+}

@@ -7,8 +7,10 @@
     {% else %}
 
         
-            {% for adventure in adventures %}
-            <h3><a href="/blog?id={{adventure.id}}">{{adventure.title}}</a> | {{adventure.time}}</h3>
+            {% for adventure in adventures | reverse %}
+            <div class="time">
+            <h3><a href="/blog?id={{adventure.id}}">{{adventure.title}}</a> |</h3><p> {{adventure.time}}</p>
+            </div>
             
             <p>{{adventure.body}}</p>
             <hr />

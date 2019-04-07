@@ -2,20 +2,20 @@
 <html>
     <head>
         <title>Adventures of Bowie and Ziggy</title>
-        <style>
-            .error{
-                color: red;
-                font-weight: 700;
-            }
-            
-        </style>
+        
+        <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+        <link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Raleway:400,700" rel="stylesheet">
+        
     </head>
+    <header>
+        <h1>Adventures of Bowie and Ziggy!</h1>
+    </header>
     <nav>
-        <a href="/blog">The Adventures</a>
-        <a href="/newpost">New Adventure</a>
+            <a href="/blog">The Adventures</a>
+            <a href="/newpost">New Adventure</a>
     </nav>
 <body>
-    <h1>Adventures of Bowie and Ziggy!</h1>
+    
 
     {% with messages = get_flashed_messages(with_categories=True) %}
     <ul>
@@ -29,4 +29,7 @@
     {% endblock %}
 
 </body>
+<footer>
+    <p>&copy; 2019 | C. M. Kinsey</p>
+</footer>
 </html>
