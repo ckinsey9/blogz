@@ -9,7 +9,7 @@
         
             {% for adventure in adventures | reverse %}
             <div class="time">
-            <h3><a href="/blog?id={{adventure.id}}">{{adventure.title}}</a> |</h3><p> {{adventure.time}}</p>
+            <h3><a href="/blog?id={{adventure.id}}">{{adventure.title}}</a> |</h3><p> {{adventure.time.strftime(formatter)}}</p>
             </div>
             
             <p>{{adventure.body}}</p>

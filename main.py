@@ -1,7 +1,7 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
-import cgi
-import datetime
+from datetime import datetime
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -10,21 +10,24 @@ app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 app.secret_key = "mysecretkey"
 
+
 class Blog(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120))
     body = db.Column(db.Text)
-    time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    time = db.Column(db.DateTime)
     #added time mark for each post
 
-    def __init__(self, title, body):
+    def __init__(self, title, body, time):
         self.title = title
         self.body = body
+        self.time = time
 
 @app.route('/blog', methods=['POST', 'GET'])
 def index():
     blog_id = request.args.get("id")
+    time_format = "%m-%d-%Y, %H:%M"
     #this allows the user to click on the single blog post link and go to
     #it's individual page with the base boilerplate
     if blog_id:
@@ -32,10 +35,10 @@ def index():
         single_blog = Blog.query.filter_by(id=blogger).first()
         return render_template("current-post.html", 
             title=single_blog.title, 
-            time=single_blog.time,
+            time=single_blog.time.strftime(time_format),
             body=single_blog.body)
     adventures = Blog.query.all()
-    return render_template('home.html', adventures=adventures) #this was in return...think it is not necessary, id=Blog.id
+    return render_template('home.html', adventures=adventures, formatter=time_format)
 
 @app.route('/newpost', methods=["POST", "GET"])
 def new_post():
@@ -45,7 +48,7 @@ def new_post():
         blog_post = request.form["blog_post"]
         #check to make sure fields aren't blank, todo = double check escaping on these
         if title and blog_post:
-            new_post = Blog(title, blog_post)
+            new_post = Blog(title, blog_post, time=datetime.today())
             db.session.add(new_post)
             db.session.commit()
             new_post_id = new_post.id
@@ -60,11 +63,5 @@ def new_post():
 if __name__ == '__main__':
     app.run()
 
-"""                 
-db.drop_all()
-db.create_all()
 
-
-todo = escape check, timezone check, CSS, most recent first
-"""
 
