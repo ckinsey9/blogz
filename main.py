@@ -5,11 +5,22 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:truffles@localhost:8889/build-a-blog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:black_truffles@localhost:8889/blogz'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 app.secret_key = "mysecretkey"
 
+
+class User(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(50))
+    blogs = db.relationship("Blog", backref = "author")
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
 
 class Blog(db.Model):
 
@@ -17,12 +28,70 @@ class Blog(db.Model):
     title = db.Column(db.String(120))
     body = db.Column(db.Text)
     time = db.Column(db.DateTime)
-    #added time mark for each post
+    #added author_id for Blogz / same as the owner_id from instructions
+    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
-    def __init__(self, title, body, time):
+    def __init__(self, title, body, author, time):
         self.title = title
         self.body = body
+        self.author = author
         self.time = time
+
+#this requires the user to login or be logged in
+@app.before_request
+def require_login():
+    allowed_routes = ["login", "signup"]
+
+    if request.endpoint not in allowed_routes and "username" not in session:
+        return redirect("/login")
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        user = User.query.filter_by(username=username).first()
+        if user and user.password == password:
+            session["username"] = username
+            return redirect('/newpost')
+        elif user and user.password != password:
+            flash("Incorrect password, please try again.", "error")
+        else:
+            flash("Username does not exist. Please try again or click the 'Create Adventures' button to Signup.", "error")
+
+    return render_template("login.html")
+
+@app.route("/signup", methods=["POST", "GET"])
+def signup():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        verify = request.form["verify"]
+
+        existing_user = User.query.filter_by(username=username).first()
+        if not username or not password or not verify:
+            flash("All inputs are required.", "error")
+
+        if not existing_user and password == verify:
+            new_user = User(username, password)
+            db.session.add(new_user)
+            db.session.commit()
+            session["username"] = username
+            return redirect("/newpost")
+
+        if existing_user:
+            flash("That username is already taken, please pick another.", "error")
+
+        if password != verify:
+            flash("The passwords do not match.", "error")
+
+        if len(password) < 6 or len(password) > 20: 
+            flash("Invalid Password: Must be between 6 and 20 characters.", "error")
+
+        if len(username) < 6 or len(username) > 20:
+            flash("Invalid Username: Must be between 6 and 20 characters.", "error")
+
+    return render_template("register.html")
 
 @app.route('/blog', methods=['POST', 'GET'])
 def index():
@@ -46,9 +115,9 @@ def new_post():
     if request.method == "POST":
         title = request.form["title"]
         blog_post = request.form["blog_post"]
-        #check to make sure fields aren't blank, todo = double check escaping on these
+        #todo, double check that author is properly added here
         if title and blog_post:
-            new_post = Blog(title, blog_post, time=datetime.today())
+            new_post = Blog(title, blog_post, author, time=datetime.today())
             db.session.add(new_post)
             db.session.commit()
             new_post_id = new_post.id

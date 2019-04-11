@@ -57,6 +57,18 @@ nav a:hover {
     background-color: steelblue;
 }
 
+.register {
+    float: left;
+}
+
+/* Error Messages */
+.error {
+    color: red;
+    font-weight: 700;
+    font-size: 1em;
+    list-style: square;
+}
+
 /* Body Styling */
 a {
     color: black;
@@ -121,3 +133,22 @@ footer {
     font-family: 'Permanent Marker', cursive;
 
 }
+
+/* Login Path Styling and Signup Path Styling */
+.login, .signup {
+    height: 400px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    padding-top: 50px;
+}
+
+.login input, .signup input {
+    width: 40%;
+}
+
+.login .button, .signup .button {
+    width: 25%;
+}
+
+

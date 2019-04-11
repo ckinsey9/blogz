@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="login">
+    <h2>Please Login to Add Personal Adventures!</h2>
+    <form action="/login" id="login" method='POST'>
+        <label for="username" >Username:</label>
+        <br>
+        <input type="text" name='username' id="username" value="{{username}}" 
+        required minlength="6" maxlength="20"/>
+        <br>
+        
+        <br>
+        <label for="password">Password:</label>
+        <br>
+        <input type="text" name="password" id="password" value="{{password}}" 
+        required minlength="6" maxlength="20"/>
+        <br>
+        <input class="button" type="submit" value='Login' />
+    </form>
+    
+</div>
+    <hr />
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="signup">
+    <h2>Please Signup to Add Personal Adventures!</h2>
+    <form action="/signup" id="signup" method='POST'>
+        <label for="username" >Username (Between 6 and 20 characters):</label>
+        <br>
+        <input type="text" name='username' id="username" value="{{username}}"/>
+        <br>
+        <br>
+        <label for="password">Password (Between 6 and 20 characters):</label>
+        <br>
+        <input type="text" name="password" id="password" value="{{password}}"/>
+        <br>
+        <br>
+        <label for="verify">Verify Password:</label>
+        <br>
+        <input type="text" name="verify" id="verify" value="{{verify}}" />
+        <br>
+        <input class="button" type="submit" value='Signup' />
+    </form>
+    
+</div>
+    <hr />
+
+{% endblock %}
