@@ -62,7 +62,7 @@ def login():
         elif user and user.password != password:
             flash("Incorrect password, please try again.", "error")
         else:
-            flash("Username does not exist. Please try again or click the 'Create Adventures' button to Signup.", "error")
+            flash("Username does not exist. Please try again or click the 'Create Adventures' button to Sign Up.", "error")
 
     return render_template("login.html")
 
