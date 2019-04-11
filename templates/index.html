@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    {% if users|length == 0 %}
+    <p>No Adventurers Yet (They are out there adventuring!)</p>
+    {% else %}
+
+    <h2>Current Adventurers:</h2>
+    <div class="users">
+        <ul>
+            {% for user in users | reverse %}
+            
+            
+                <li><a href="#">{{user.username}}</a></li>
+            
+            {% endfor %}
+        </ul>
+            
+    </div>
+        
+
+       
+
+
+    {% endif %}
+
+
+
+{% endblock %}

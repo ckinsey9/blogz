@@ -97,9 +97,10 @@ def signup():
             return redirect("/newpost")
     return render_template("register.html")
 
-#@app.route("/", methods=["POST", "GET"])
-#   def index():      (the all user page)
-#      return render_template("home.html")
+@app.route("/", methods=["POST", "GET"])
+def index():
+    user_list = User.query.all()
+    return render_template("index.html", users = user_list)
 
 @app.route('/blog', methods=['POST', 'GET'])
 def blog_list():
