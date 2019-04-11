@@ -45,6 +45,11 @@ def require_login():
     if request.endpoint not in allowed_routes and "username" not in session:
         return redirect("/login")
 
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/blog")
+
 @app.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
@@ -72,26 +77,28 @@ def signup():
         if not username or not password or not verify:
             flash("All inputs are required.", "error")
 
-        if not existing_user and password == verify:
+        elif existing_user:
+            flash("That username is already taken, please pick another.", "error")
+
+        elif password != verify:
+            flash("The passwords do not match.", "error")
+
+        elif len(password) < 6 or len(password) > 20: 
+            flash("Invalid Password: Must be between 6 and 20 characters.", "error")
+
+        elif len(username) < 6 or len(username) > 20:
+            flash("Invalid Username: Must be between 6 and 20 characters.", "error")
+
+        elif not existing_user and password == verify:
             new_user = User(username, password)
             db.session.add(new_user)
             db.session.commit()
             session["username"] = username
             return redirect("/newpost")
-
-        if existing_user:
-            flash("That username is already taken, please pick another.", "error")
-
-        if password != verify:
-            flash("The passwords do not match.", "error")
-
-        if len(password) < 6 or len(password) > 20: 
-            flash("Invalid Password: Must be between 6 and 20 characters.", "error")
-
-        if len(username) < 6 or len(username) > 20:
-            flash("Invalid Username: Must be between 6 and 20 characters.", "error")
-
     return render_template("register.html")
+
+#@app.route("/", methods=["POST", "GET"])      (the all user page)
+#    return render_template("home.html")
 
 @app.route('/blog', methods=['POST', 'GET'])
 def index():
