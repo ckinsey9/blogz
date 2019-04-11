@@ -40,7 +40,7 @@ class Blog(db.Model):
 #this requires the user to login or be logged in
 @app.before_request
 def require_login():
-    allowed_routes = ["login", "signup"]
+    allowed_routes = ["login", "signup", "blog_list", "index"]
 
     if request.endpoint not in allowed_routes and "username" not in session:
         return redirect("/login")
@@ -97,11 +97,12 @@ def signup():
             return redirect("/newpost")
     return render_template("register.html")
 
-#@app.route("/", methods=["POST", "GET"])      (the all user page)
-#    return render_template("home.html")
+#@app.route("/", methods=["POST", "GET"])
+#   def index():      (the all user page)
+#      return render_template("home.html")
 
 @app.route('/blog', methods=['POST', 'GET'])
-def index():
+def blog_list():
     blog_id = request.args.get("id")
     time_format = "%m-%d-%Y, %H:%M"
     #this allows the user to click on the single blog post link and go to
@@ -123,6 +124,8 @@ def new_post():
         title = request.form["title"]
         blog_post = request.form["blog_post"]
         #todo, double check that author is properly added here
+        author = User.query.filter_by(username=session["username"]).first()
+
         if title and blog_post:
             new_post = Blog(title, blog_post, author, time=datetime.today())
             db.session.add(new_post)
