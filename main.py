@@ -99,7 +99,7 @@ def signup():
 
 @app.route("/", methods=["POST", "GET"])
 def index():
-    user_list = User.query.all()
+    user_list = User.query.all()       #todo - paginate attempt
     
     return render_template("index.html", users = user_list)
 
@@ -125,7 +125,7 @@ def blog_list():
             time=single_blog.time.strftime(time_format),
             body=single_blog.body,
             author=single_blog.author.username)
-    adventures = Blog.query.all()
+    adventures = Blog.query.all()                       #todo - paginate attempt
     users = User.query.all() 
     return render_template('home.html', adventures=adventures, formatter=time_format, users= users)
 
