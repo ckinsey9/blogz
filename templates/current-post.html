@@ -3,11 +3,12 @@
 {% block content %}
 
 <div class="time">
-<h3>{{title}} |</h3><p> {{time}}</p>
+<h3>{{title}}</h3><p> | <a href="/blog?user={{author}}">By: {{author}}</a> | {{time}}</p>
 </div>
         
 <p>{{body}}</p>
 <hr />
+
 
 
 {% endblock %}

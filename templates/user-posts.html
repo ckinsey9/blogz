@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    {% if user_blogs|length == 0 %}
+    <p>No Adventures Yet ({{user.username}} is out there adventuring!)</p>
+    {% else %}
+
+        
+            {% for blog in user_blogs | reverse %}
+            <div class="time">
+            <h3><a href="/blog?id={{blog.id}}">{{blog.title}}</a></h3><p> | <a href="/blog?user={{user.username}}">By: {{user.username}}</a> | {{blog.time.strftime(formatter)}}</p>
+            </div>
+            
+            <p>{{blog.body}}</p>
+            <hr />
+            {% endfor %}
+        
+
+       
+
+
+    {% endif %}
+
+
+
+{% endblock %}

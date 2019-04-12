@@ -100,23 +100,34 @@ def signup():
 @app.route("/", methods=["POST", "GET"])
 def index():
     user_list = User.query.all()
+    
     return render_template("index.html", users = user_list)
 
 @app.route('/blog', methods=['POST', 'GET'])
 def blog_list():
     blog_id = request.args.get("id")
     time_format = "%m-%d-%Y, %H:%M"
+    user_info = request.args.get("user")
     #this allows the user to click on the single blog post link and go to
     #it's individual page with the base boilerplate
+    if user_info:
+        user = User.query.filter_by(username=user_info).first()
+        user_blogs = Blog.query.filter_by(author_id=user.id).all()
+        return render_template("user-posts.html",
+            user = user,
+            user_blogs=user_blogs,
+            formatter= time_format)
     if blog_id:
         blogger = int(blog_id)
         single_blog = Blog.query.filter_by(id=blogger).first()
         return render_template("current-post.html", 
             title=single_blog.title, 
             time=single_blog.time.strftime(time_format),
-            body=single_blog.body)
+            body=single_blog.body,
+            author=single_blog.author.username)
     adventures = Blog.query.all()
-    return render_template('home.html', adventures=adventures, formatter=time_format)
+    users = User.query.all() 
+    return render_template('home.html', adventures=adventures, formatter=time_format, users= users)
 
 @app.route('/newpost', methods=["POST", "GET"])
 def new_post():
